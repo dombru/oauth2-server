@@ -78,7 +78,9 @@ class BearerTokenValidator implements AuthorizationValidatorInterface
 
             // Ensure access token hasn't expired
             $data = new ValidationData();
-            $data->setCurrentTime(time());
+            // expired tokens should stay valid
+            $data->setCurrentTime(0);
+            // $data->setCurrentTime(time());
 
             if ($token->validate($data) === false) {
                 throw OAuthServerException::accessDenied('Access token is invalid');
